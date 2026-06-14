@@ -13,11 +13,11 @@ function toPercent(value) {
 }
 
 function getResultTone(result) {
-  if (!result || result.confidence < 0.35) {
+  if (!result || result.gestureId === 'UNKNOWN' || result.confidence < 0.5) {
     return 'retry';
   }
 
-  if (result.confidence < 0.75) {
+  if (result.confidence < 0.78) {
     return 'maybe';
   }
 
@@ -49,7 +49,7 @@ export default {
     resultTone: 'idle',
     errorMessage: '',
     isRecognizing: false,
-    modeLabel: '参考图识别',
+    modeLabel: '知识库识别',
   },
 
   onShow() {
@@ -103,7 +103,7 @@ export default {
 
       this.setData({
         status: 'RECOGNIZING',
-        statusText: '正在调用多模态模型',
+        statusText: '正在匹配手势知识库',
       });
 
       const result = await recognizeStaticGesture(photo);
@@ -141,13 +141,13 @@ export default {
         <text class="title">静态手势识别</text>
         <text class="mode">{{ modeLabel }}</text>
       </view>
-      <text class="subtitle">参考示例图理解手势，保持单个手势入镜</text>
+      <text class="subtitle">仅在参考库中匹配：站、坐、和、内、椅子、床、元旦、紧张、家、人</text>
     </view>
 
     <view class="camera-card">
       <camera class="camera-preview"></camera>
       <view class="camera-overlay">
-        <text class="overlay-text">单手势静止后按 Enter 识别</text>
+        <text class="overlay-text">手势静止后按 Enter 识别</text>
       </view>
     </view>
 
