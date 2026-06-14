@@ -56,7 +56,7 @@ export default {
     resultTone: 'idle',
     errorMessage: '',
     isRecognizing: false,
-    modeLabel: '多模态识别',
+    modeLabel: '静态手语库',
   },
 
   onShow() {
@@ -146,13 +146,13 @@ export default {
         <text class="title">静态手势识别</text>
         <text class="mode">{{ modeLabel }}</text>
       </view>
-      <text class="subtitle">单个手势入镜后，按 Enter 或点击识别</text>
+      <text class="subtitle">支持基础手势和 A-Z 字母，保持单个手势入镜</text>
     </view>
 
     <view class="camera-card">
       <camera class="camera-preview"></camera>
       <view class="camera-overlay">
-        <text class="overlay-text">保持手部完整入镜</text>
+        <text class="overlay-text">单手势静止后按 Enter 识别</text>
       </view>
     </view>
 
