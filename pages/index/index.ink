@@ -56,7 +56,7 @@ export default {
     resultTone: 'idle',
     errorMessage: '',
     isRecognizing: false,
-    modeLabel: 'Mock 模式',
+    modeLabel: '多模态识别',
   },
 
   onShow() {
@@ -87,7 +87,7 @@ export default {
 
     this.setData({
       status: 'CAPTURING',
-      statusText: '正在模拟拍摄',
+      statusText: '正在拍摄',
       resultTitle: '',
       resultReason: '',
       confidenceText: '',
@@ -97,14 +97,22 @@ export default {
     });
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 260));
+      if (!this.cameraCtx) {
+        this.cameraCtx = wx.media.createCameraContext();
+      }
+
+      if (!this.cameraCtx) {
+        throw new Error('相机不可用，请检查权限或运行环境');
+      }
+
+      const photo = await this.cameraCtx.takePhoto({ quality: 'high' });
 
       this.setData({
         status: 'RECOGNIZING',
-        statusText: '正在识别',
+        statusText: '正在调用多模态模型',
       });
 
-      const result = await recognizeStaticGesture();
+      const result = await recognizeStaticGesture(photo);
       const resultTone = getResultTone(result);
 
       this.setData({
