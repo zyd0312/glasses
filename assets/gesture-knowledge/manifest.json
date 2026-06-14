@@ -1,0 +1,72 @@
+[
+  {
+    "id": "stand",
+    "label": "站",
+    "pinyin": "zhan",
+    "file": "reference-stand.jpg",
+    "description": "左手横伸；右手食指、中指分开，指尖朝下，立于左手掌心上。可根据实际表示站的动作。"
+  },
+  {
+    "id": "sit",
+    "label": "坐",
+    "pinyin": "zuo",
+    "file": "reference-sit.jpg",
+    "description": "左手横伸；右手伸拇指、小指，置于左手掌心上。可根据实际表示坐的动作。"
+  },
+  {
+    "id": "and",
+    "label": "和",
+    "pinyin": "he",
+    "file": "reference-and.jpg",
+    "description": "双手直立，掌心左右相对，五指微曲，从两侧向中间移动；也可表示连词和。"
+  },
+  {
+    "id": "inside",
+    "label": "内",
+    "pinyin": "nei",
+    "file": "reference-inside.jpg",
+    "description": "左手横立；右手食指直立，在左手掌心内向下移动。可根据实际表示里面的意思。"
+  },
+  {
+    "id": "chair",
+    "label": "椅子",
+    "pinyin": "yizi",
+    "file": "reference-chair.jpg",
+    "description": "左手直立，掌心向右；右手五指与手掌成弯形，指尖抵于左手掌心，仿椅子形状。"
+  },
+  {
+    "id": "bed",
+    "label": "床",
+    "pinyin": "chuang",
+    "file": "reference-bed.jpg",
+    "description": "双手食指、小指直立，中指、无名指与手掌成直角，指尖相抵，拇指贴于食指，仿床的形状。"
+  },
+  {
+    "id": "new-year-day",
+    "label": "元旦",
+    "pinyin": "yuandan",
+    "file": "reference-new-year-day.jpg",
+    "description": "双手食指横伸，手背向外，一上一下，表示公历一月一日。"
+  },
+  {
+    "id": "nervous",
+    "label": "紧张",
+    "pinyin": "jinzhang",
+    "file": "reference-nervous.jpg",
+    "description": "双手五指相捏，指尖上下相对，互碰几下，面露紧张表情。"
+  },
+  {
+    "id": "home",
+    "label": "家",
+    "pinyin": "jia",
+    "file": "reference-home.jpg",
+    "description": "双手搭成屋顶形，表示家、家庭、房子或房。"
+  },
+  {
+    "id": "person",
+    "label": "人",
+    "pinyin": "ren",
+    "file": "reference-person.jpg",
+    "description": "双手食指搭成人字形，表示人。"
+  }
+]
