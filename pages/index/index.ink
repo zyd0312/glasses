@@ -13,12 +13,8 @@ function toPercent(value) {
 }
 
 function getResultTone(result) {
-  if (!result || result.gestureId === 'UNKNOWN' || result.confidence < 0.5) {
+  if (!result || result.confidence < 0.35) {
     return 'retry';
-  }
-
-  if (result.gestureId === 'HELP') {
-    return 'warning';
   }
 
   if (result.confidence < 0.75) {
@@ -35,15 +31,11 @@ function getResultTitle(result) {
     return '无法确定';
   }
 
-  if (tone === 'warning') {
-    return `可能需要${result.label}`;
-  }
-
   if (tone === 'maybe') {
     return `可能是：${result.label}`;
   }
 
-  return `识别到：${result.label}`;
+  return `最可能：${result.label}`;
 }
 
 export default {
@@ -52,11 +44,12 @@ export default {
     statusText: '保持手势稳定后按键识别',
     resultTitle: '',
     resultReason: '',
+    resultCandidates: [],
     confidenceText: '',
     resultTone: 'idle',
     errorMessage: '',
     isRecognizing: false,
-    modeLabel: '静态手语库',
+    modeLabel: '参考图识别',
   },
 
   onShow() {
@@ -90,6 +83,7 @@ export default {
       statusText: '正在拍摄',
       resultTitle: '',
       resultReason: '',
+      resultCandidates: [],
       confidenceText: '',
       resultTone: 'idle',
       errorMessage: '',
@@ -120,6 +114,7 @@ export default {
         statusText: resultTone === 'retry' ? '请重新保持手势后再试' : '识别完成',
         resultTitle: getResultTitle(result),
         resultReason: result.reason || '',
+        resultCandidates: result.candidateTexts || [],
         confidenceText: toPercent(result.confidence),
         resultTone,
       });
@@ -146,7 +141,7 @@ export default {
         <text class="title">静态手势识别</text>
         <text class="mode">{{ modeLabel }}</text>
       </view>
-      <text class="subtitle">支持基础手势和 A-Z 字母，保持单个手势入镜</text>
+      <text class="subtitle">参考示例图理解手势，保持单个手势入镜</text>
     </view>
 
     <view class="camera-card">
@@ -165,6 +160,9 @@ export default {
       <text class="result-title">{{ resultTitle }}</text>
       <text class="confidence">置信度 {{ confidenceText }}</text>
       <text class="reason">{{ resultReason }}</text>
+      <view class="candidate-list" ink:if="{{resultCandidates.length > 1}}">
+        <text class="candidate" ink:for="{{resultCandidates}}">{{ item }}</text>
+      </view>
     </view>
 
     <view class="result-card retry" ink:if="{{status === 'ERROR'}}">
@@ -328,6 +326,19 @@ export default {
   color: #aeb6c2;
   font-size: 14px;
   line-height: 20px;
+}
+
+.candidate-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.candidate {
+  color: #d7dde7;
+  font-size: 13px;
+  line-height: 18px;
 }
 
 .action-button {
