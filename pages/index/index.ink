@@ -8,13 +8,6 @@
 import wx from 'wx';
 import { recognizeStaticGesture } from '../../lib/vlm-recognizer.js';
 
-const CAPTURE_FRAME_COUNT = 4;
-const CAPTURE_INTERVAL_MS = 700;
-
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 function toPercent(value) {
   return `${Math.round(Number(value || 0) * 100)}%`;
 }
@@ -24,7 +17,7 @@ function getResultTone(result) {
     return 'retry';
   }
 
-  if (result.gestureId === 'NEED_HELP') {
+  if (result.gestureId === 'HELP') {
     return 'warning';
   }
 
@@ -43,7 +36,7 @@ function getResultTitle(result) {
   }
 
   if (tone === 'warning') {
-    return `可能在表达：${result.label}`;
+    return `可能需要${result.label}`;
   }
 
   if (tone === 'maybe') {
@@ -63,7 +56,7 @@ export default {
     resultTone: 'idle',
     errorMessage: '',
     isRecognizing: false,
-    modeLabel: '短时多帧',
+    modeLabel: '多模态识别',
   },
 
   onShow() {
@@ -94,7 +87,7 @@ export default {
 
     this.setData({
       status: 'CAPTURING',
-      statusText: '请在 3 秒内完成一个手语表达',
+      statusText: '正在拍摄',
       resultTitle: '',
       resultReason: '',
       confidenceText: '',
@@ -112,14 +105,14 @@ export default {
         throw new Error('相机不可用，请检查权限或运行环境');
       }
 
-      const photos = await this.captureGestureFrames();
+      const photo = await this.cameraCtx.takePhoto({ quality: 'high' });
 
       this.setData({
         status: 'RECOGNIZING',
-        statusText: '正在分析动作',
+        statusText: '正在调用多模态模型',
       });
 
-      const result = await recognizeStaticGesture(photos);
+      const result = await recognizeStaticGesture(photo);
       const resultTone = getResultTone(result);
 
       this.setData({
@@ -143,25 +136,6 @@ export default {
       });
     }
   },
-
-  async captureGestureFrames() {
-    const photos = [];
-
-    for (let index = 0; index < CAPTURE_FRAME_COUNT; index += 1) {
-      this.setData({
-        statusText: `采集中 ${index + 1}/${CAPTURE_FRAME_COUNT}`,
-      });
-
-      const photo = await this.cameraCtx.takePhoto({ quality: 'high' });
-      photos.push(photo);
-
-      if (index < CAPTURE_FRAME_COUNT - 1) {
-        await delay(CAPTURE_INTERVAL_MS);
-      }
-    }
-
-    return photos;
-  },
 };
 </script>
 
@@ -169,16 +143,16 @@ export default {
   <view class="page">
     <view class="header">
       <view class="title-row">
-        <text class="title">手语辅助识别</text>
+        <text class="title">静态手势识别</text>
         <text class="mode">{{ modeLabel }}</text>
       </view>
-      <text class="subtitle">点击后，在 3 秒内完成一个手语表达</text>
+      <text class="subtitle">单个手势入镜后，按 Enter 或点击识别</text>
     </view>
 
     <view class="camera-card">
       <camera class="camera-preview"></camera>
       <view class="camera-overlay">
-        <text class="overlay-text">保持手部完整入镜，动作尽量清楚</text>
+        <text class="overlay-text">保持手部完整入镜</text>
       </view>
     </view>
 
