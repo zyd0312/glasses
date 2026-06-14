@@ -41,7 +41,7 @@ function getResultTitle(result) {
 export default {
   data: {
     status: 'READY',
-    statusText: '保持手势稳定后按键识别',
+    statusText: '将手势放入取景框，保持 1 秒后识别',
     resultTitle: '',
     resultReason: '',
     resultCandidates: [],
@@ -49,7 +49,7 @@ export default {
     resultTone: 'idle',
     errorMessage: '',
     isRecognizing: false,
-    modeLabel: '知识库识别',
+    modeLabel: '参考库匹配',
   },
 
   onShow() {
@@ -80,7 +80,7 @@ export default {
 
     this.setData({
       status: 'CAPTURING',
-      statusText: '正在拍摄',
+      statusText: '正在采集当前手势',
       resultTitle: '',
       resultReason: '',
       resultCandidates: [],
@@ -103,7 +103,7 @@ export default {
 
       this.setData({
         status: 'RECOGNIZING',
-        statusText: '正在匹配手势知识库',
+        statusText: '正在比对参考库手形',
       });
 
       const result = await recognizeStaticGesture(photo);
@@ -111,7 +111,7 @@ export default {
 
       this.setData({
         status: 'DONE',
-        statusText: resultTone === 'retry' ? '请重新保持手势后再试' : '识别完成',
+        statusText: resultTone === 'retry' ? '未找到可靠匹配，请调整手势后重试' : '已完成手势匹配',
         resultTitle: getResultTitle(result),
         resultReason: result.reason || '',
         resultCandidates: result.candidateTexts || [],
@@ -141,13 +141,14 @@ export default {
         <text class="title">静态手势识别</text>
         <text class="mode">{{ modeLabel }}</text>
       </view>
-      <text class="subtitle">仅在参考库中匹配：站、坐、和、内、椅子、床、元旦、紧张、家、人</text>
+      <text class="subtitle">对准手部，避免遮挡和强背光；当前支持参考库内的常用手势</text>
+      <text class="support-text">支持：站、坐、和、内、椅子、床、元旦、紧张、家、人、数字、敬礼、爱、好</text>
     </view>
 
     <view class="camera-card">
       <camera class="camera-preview"></camera>
       <view class="camera-overlay">
-        <text class="overlay-text">手势静止后按 Enter 识别</text>
+        <text class="overlay-text">手部完整入镜，静止后按 Enter</text>
       </view>
     </view>
 
@@ -222,6 +223,12 @@ export default {
   color: #aeb6c2;
   font-size: 14px;
   line-height: 20px;
+}
+
+.support-text {
+  color: #7f8998;
+  font-size: 12px;
+  line-height: 18px;
 }
 
 .camera-card {

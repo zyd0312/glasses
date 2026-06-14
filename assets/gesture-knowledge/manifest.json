@@ -68,5 +68,33 @@
     "pinyin": "ren",
     "file": "reference-person.jpg",
     "description": "双手食指搭成人字形，表示人。"
+  },
+  {
+    "id": "chineseNumber",
+    "label": "中国数字",
+    "pinyin": "zhongguoshuzi",
+    "file": "reference-chinese-numbers.jpg",
+    "description": "中国数字手势参考图，用于辅助识别常见数字手势。"
+  },
+  {
+    "id": "salute",
+    "label": "敬礼",
+    "pinyin": "jingli",
+    "file": "reference-salute.jpg",
+    "description": "右手五指并拢举至额前，表示敬礼。"
+  },
+  {
+    "id": "love",
+    "label": "爱",
+    "pinyin": "ai",
+    "file": "reference-love.jpg",
+    "description": "根据参考图中的手形表达爱、喜欢或爱心含义。"
+  },
+  {
+    "id": "good",
+    "label": "好",
+    "pinyin": "hao",
+    "file": "reference-good.jpg",
+    "description": "根据参考图中的手形表达好、赞同或认可含义。"
   }
 ]
